@@ -1,213 +1,431 @@
-﻿<!DOCTYPE html>
-<html lang="zh">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="shortcut icon" type="image/x-icon" href="static/img/love.ico">
-    <link href="static/css/index.css" type="text/css" rel="stylesheet">
-    <link href="static/css/star.css" type="text/css" rel="stylesheet">
-    <link href="static/css/animations.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript">
-        (function (doc, win) {
-            var docEl = doc.documentElement,
-                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-                recalc = function () {
-                    var clientWidth = docEl.clientWidth;
-                    if (!clientWidth) return;
-                    if(clientWidth>=640){
-                        docEl.style.fontSize = '100px';
-                    }else{
-                        docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
-                    }
-                };
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全国探空图综合查询器（T-lnP）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #0d1117; color: #e6edf3;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  a { color: #58a6ff; text-decoration: none; }
 
-            if (!doc.addEventListener) return;
-            win.addEventListener(resizeEvt, recalc, false);
-            doc.addEventListener('DOMContentLoaded', recalc, false);
-        })(document, window);
-    </script>
-    <title>CSE-LOVE</title>
-    <script type="text/javascript" src="static/js/jquery.js"></script>
-    <!--<script type="text/javascript" src="static/js/garden.js"></script>-->
-    <script type="text/javascript" src="static/js/index.js"></script>
-    <script type="text/javascript" src="static/js/star.js"></script>
-</head>
-<body>
-<div>
-    <div id="mainDiv">
-        <div id="content">
-            <div id="code">
-                <span class="height-length"><span class="space"></span><span class="comments">// 从2020—10-25-至今</span><br/></span>
-                <span class="height-length">男孩名 = <span class="keyword">Mr</span> FTH<br/></span>
-                <span class="height-length"><span class="comments">// 珍贵的东西在这个世界上很少。</span><br/></span>
-                <span class="height-length"><span class="comments">// 这就是为什么只有一个你。</span><br/></span>
-                <span class="height-length">女孩名 = <span class="keyword">Mrs</span> 蔡缮而<br/></span>
-                <span class="height-length"><span class="comments">//我想说：</span><br/></span>
-                <span class="height-length">I love you ！<span class="keyword"></span><br/></span>
-            </div>
+  header { padding: 6px 14px 4px; border-bottom: 1px solid #21262d; background: #010409; }
+  header h1 { font-size: 15px; color: #f0f6fc; }
+  header .sub { font-size: 11px; color: #8b949e; margin-top: 2px; }
 
-            <div id="subpage" style="height: 280px;">
-                <!--<iframe id="ifif" frameborder="0" scrolling="no" src="subpage/3d-love.html" width="100%" height="280px"></iframe>-->
-                <!--<iframe id="ifif" frameborder="0" scrolling="no" src="subpage/star.html" width="100%" height="280px"></iframe>-->
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    padding: 8px 14px; background: #161b22; border-bottom: 1px solid #21262d; font-size: 12px;
+  }
+  .toolbar label { color: #8b949e; }
+  .toolbar input[type=text], .toolbar input[type=date] {
+    background: #0d1117; color: #e6edf3; border: 1px solid #30363d; border-radius: 5px;
+    padding: 4px 8px; font-size: 13px; outline: none;
+  }
+  .toolbar input[type=text]:focus, .toolbar input[type=date]:focus { border-color: #58a6ff; }
+  #stnInput { width: 96px; letter-spacing: 1px; }
+  .preset { display: flex; gap: 5px; max-width: 100%; overflow-x: auto; padding-bottom: 2px; }
+  .preset button {
+    background: #21262d; color: #8b949e; border: 1px solid #30363d; border-radius: 5px;
+    padding: 3px 8px; font-size: 12px; cursor: pointer;
+  }
+  .preset button:hover { color: #e6edf3; border-color: #58a6ff; }
+  .hh-group { display: inline-flex; gap: 4px; }
+  .hh-btn {
+    background: #21262d; color: #8b949e; border: 1px solid #30363d; border-radius: 5px;
+    padding: 4px 14px; font-size: 12px; cursor: pointer;
+  }
+  .hh-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+  .btn-go {
+    background: #238636; color: #fff; border: none; border-radius: 5px;
+    padding: 5px 22px; font-size: 13px; cursor: pointer;
+  }
+  .btn-go:hover { background: #2ea043; }
+  .btn-go:disabled { opacity: .5; cursor: not-allowed; }
 
-                <div class="container">
-                    <!-- stars -->
-                    <div class="star star-1"></div>
-                    <div class="star star-2"></div>
-                    <div class="star star-3"></div>
-                    <!-- clouds -->
-                    <div class="cloud-group-1">
-                        <div class="cloud cloud-1"></div>
-                        <div class="cloud cloud-2"></div>
-                        <div class="cloud cloud-3"></div>
-                        <div class="cloud cloud-4"></div>
-                        <div class="cloud cloud-5"></div>
-                        <div class="cloud cloud-6"></div>
-                    </div>
-                    <div class="cloud-group-2">
-                        <div class="cloud cloud-1"></div>
-                        <div class="cloud cloud-2"></div>
-                        <div class="cloud cloud-3"></div>
-                        <div class="cloud cloud-4"></div>
-                        <div class="cloud cloud-5"></div>
-                        <div class="cloud cloud-6"></div>
-                    </div>
-                    <div class="cloud-group-3">
-                        <div class="cloud cloud-1"></div>
-                        <div class="cloud cloud-2"></div>
-                        <div class="cloud cloud-3"></div>
-                        <div class="cloud cloud-4"></div>
-                        <div class="cloud cloud-5"></div>
-                        <div class="cloud cloud-6"></div>
-                    </div>
-                    <!-- orbits -->
-                    <div class="orbit orbit-1"></div>
-                    <div class="orbit orbit-2"></div>
-                    <div class="orbit orbit-3"></div>
-                    <div class="orbit orbit-4"></div>
-                    <div class="orbit orbit-5"></div>
-                    <div class="orbit orbit-6"></div>
-                    <!-- main planet -->
-                    <div class="ring-before"></div>
-                    <div class="ring-bigger-before"></div>
-                    <div class="planet"></div>
-                    <div class="ring-after"></div>
-                    <div class="ring-bigger-after"></div>
-                    <!-- sub planet -->
-                    <div class="sub-planet"></div>
-                </div>
+  .stepbar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 4px 14px; font-size: 12px; color: #8b949e;
+    background: #0d1117; border-bottom: 1px solid #21262d;
+    min-height: 26px; flex-wrap: wrap;
+  }
+  .stepbar b { color: #e6edf3; font-weight: normal; }
 
-            </div>
+  .url-strip {
+    display: none; gap: 14px; align-items: center;
+    padding: 3px 14px; font-size: 11px; color: #8b949e;
+    background: #0d1117; border-bottom: 1px solid #21262d;
+    overflow-x: auto; white-space: nowrap;
+  }
+  .url-strip span { color: #8b949e; flex-shrink: 0; }
+  .url-strip a { color: #58a6ff; flex-shrink: 0; }
 
-            <div id="loveHeart">
-                <!--<canvas id="garden"></canvas>-->
-                <div id="words">
-                    <div id="messages">
-                        <span class="is-animate3 style3"><span>蔡</span><span>缮</span><span>而</span></span>，这是我喜欢你的：<span class="is-animate4 style4">.</span> .</span> .</span></span>
-                        <div id="elapseClock"></div>
-                    </div>
-                    <div id="loveu">
-                        <span id="up">一直都喜欢着你！<span id="lastLetter"></span></span><br/>
-                        <div class="signature"><span id="uname" class="is-animate3 style3">- <span>F</span><span>T</span><span>H</span></span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  .grid-area { flex: 1; min-height: 0; padding: 8px 10px; display: flex; flex-direction: column; }
+  .grid {
+    flex: 1; min-height: 0; display: none;
+    grid-template-columns: repeat(1, 1fr); grid-template-rows: repeat(1, 1fr);
+    gap: 4px; transition: opacity .12s;
+  }
+  .grid.show { display: grid; }
+  .grid.fade { opacity: 0; }
+  .grid-item {
+    position: relative; display: block; overflow: hidden;
+    background: #0b0e14; border: 1px solid #30363d; border-radius: 4px;
+  }
+  .grid-item img { width: 100%; height: 100%; object-fit: contain; display: block; transition: opacity .25s; }
+  .badge {
+    position: absolute; left: 0; right: 0; top: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 4px 10px; font-size: 12px; color: #f0f6fc;
+    background: linear-gradient(180deg, rgba(0,0,0,.75), rgba(0,0,0,0));
+    pointer-events: none;
+  }
+  .badge .vt { font-size: 11px; color: #9ecbff; }
+  .cell-load {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #8b949e; font-size: 13px;
+  }
+  .cell-err {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #f85149; font-size: 13px; text-align: center; line-height: 1.7;
+  }
+  .empty-state {
+    display: none; flex: 1; flex-direction: column; align-items: center; justify-content: center;
+    color: #8b949e; gap: 8px;
+  }
+  .empty-state .big { font-size: 16px; color: #e6edf3; }
+  .empty-state .small { font-size: 12px; }
 
-    <script type="text/javascript">
-        var clientWidth = document.body.clientWidth;
-        var clientHeight = document.body.clientHeight;
-        $("#loveHeart").height(clientHeight * 0.3);
-        var codeHeight = 0;
-        $(".height-length").each(function () {
-            codeHeight += this.offsetHeight;
-        });
-        $("#code").height(codeHeight * 1.3);
-        // $("#code").height(clientHeight * 0.3);
-        // var $loveHeart = $("#loveHeart");
-        // var $gardenXY = $("#garden");
-        // var offsetX = $gardenXY.width() / 2;66
-        // var offsetY = $gardenXY.height() / 2 + 150;
-        var together = new Date();
-        together.setFullYear(2020, 9, 25);//JS Date对象，月份范围：0~11
-        together.setHours(0);
-        together.setMinutes(0);
-        together.setSeconds(0);
-        together.setMilliseconds(0);
-
-        // setTimeout(function () {
-        //     startHeartAnimation();
-        // }, 5000);/
-
-        timeElapse(together);
-        setInterval(function () {
-            timeElapse(together);
-        }, 500);
-        // // adjustCodePosition();
-        $("#code").typewriter();
-
-        // setTimeout(function () {
-        //     $("#ifif").show();
-        //     setTimeout(function () {
-        //          $("#words").show();
-        //     }, 2100);
-        // }, 1);//16800
-
-        var offset = clientWidth - document.getElementById("lastLetter").offsetLeft;
-        var right = clientWidth / 2 - offset;
-        var unameWidth = $("#uname").width() / 2;
-        var normalRight = right + unameWidth;
-        var upRight = $("#up").width() / 2;
-        var marginRight = 0;
-        if (normalRight < clientWidth / 2) {
-            marginRight = normalRight;
-        } else if (unameWidth < clientWidth / 2) {
-            marginRight = unameWidth;
-        } else if (upRight < clientWidth / 2) {
-            marginRight = upRight;
-        }
-        $(".signature").css("margin-left", marginRight);
-    </script>
-
-    <div style="text-align:center;clear:both">
-    </div>
-    </div>
-   <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>Test</title>
-<style type="text/css">
-body {
-padding: 0;
-margin: 0 auto;
-}
-
- 
-
-#footer {
-height: 40px;
-line-height: 40px;
-position: fixed;
-bottom: 0;
-width: 100%;
-text-align: center;
-background: #333;
-color: #fff;
-font-family: Arial;
-font-size: 12px;
-letter-spacing: 1px;
-}
-
- 
-
-.content {
-height: 1800px;
-width: 100%;
-text-align: center;
-}
+  footer {
+    padding: 4px 14px; font-size: 11px; color: #8b949e;
+    background: #010409; border-top: 1px solid #21262d;
+  }
 </style>
 </head>
 <body>
-<div id="footer">Copyright©2021-2022 LOVE.CSE520 版权所有</div>
+
+<header>
+  <h1>全国探空图综合查询器（T-lnP 温度对数压力图）</h1>
+  <div class="sub">全国探空站 · 北京时 08 / 14 / 20 时 · 点击图片可打开原图！(推荐电脑端浏览器使用该平台)</div>
+</header>
+
+<div class="toolbar">
+  <label>站号</label>
+  <select id="stnSelect" title="按省份快速选站"></select>
+  <input type="text" id="stnInput" value="54511" maxlength="5" placeholder="5位站号">
+  <div class="preset" id="presetBox"></div>
+
+  <label>日期(北京时)</label>
+  <input type="date" id="dateInput">
+
+  <label>时刻</label>
+  <div class="hh-group" id="hhGroup">
+    <button type="button" class="hh-btn active" data-hh="08">08时</button>
+    <button type="button" class="hh-btn active" data-hh="14">14时</button>
+    <button type="button" class="hh-btn active" data-hh="20">20时</button>
+  </div>
+
+  <button type="button" class="btn-go" id="btnLoad">加载</button>
+</div>
+
+<div class="stepbar" id="stepbar">
+  <span>站号 <b id="sbStn">54511</b></span>
+  <span>日期 <b id="sbDate">—</b></span>
+  <span>时刻 <b id="sbHrs">—</b></span>
+  <span>时次数 <b id="sbN">0</b></span>
+</div>
+
+<div class="url-strip" id="urlStrip"></div>
+
+<div class="grid-area">
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="big" id="emptyMain">输入站号与日期后点击「加载」</div>
+    <div class="small" id="emptySub">例如 54511（北京）· 2026-10-10 · 08/14/20 时</div>
+  </div>
+</div>
+
+<footer>特别提醒！请勿随意外传本产品到公众平台！· 14 时加密探空若未发布将显示「暂无探空图」</footer>
+
+<script>
+/* ===================== 常量与状态 ===================== */
+const BASE = "https://ldadapp.bj-bmic.cn/proxy/10.224.97.148/proxy/10.1.64.146/stweather/proxy/10.20.90.85:8666/getPic";
+const PROVINCES = [
+  {name: "广东", stations: [["59280", "清远"], ["59293", "河源"], ["59316", "汕头"], ["59663", "阳江"]]},
+  {name: "广西", stations: [["57957", "桂林"], ["59023", "河池"], ["59211", "百色"], ["59265", "梧州"], ["59431", "南宁"], ["59644", "北海"]]},
+  {name: "海南", stations: [["59758", "海口"], ["59948", "三亚"], ["59981", "三沙"]]},
+  {name: "福建", stations: [["58725", "邵武"], ["58847", "福州"], ["59134", "厦门"]]},
+  {name: "湖南", stations: [["57687", "长沙"], ["57749", "怀化"], ["57972", "郴州"]]}
+];
+const OTHERS = [["50527", "海拉尔"], ["50557", "嫩江"], ["50745", "齐齐哈尔"], ["50774", "伊春"], ["50834", "索伦"], ["50953", "哈尔滨"], ["51076", "阿勒泰"], ["51133", "塔城"], ["51243", "克拉玛依"], ["51288", "奇台县北塔山"], ["51431", "伊宁"], ["51463", "乌鲁木齐"], ["51628", "阿克苏"], ["51644", "库车"], ["51656", "库尔勒"], ["51709", "喀什"], ["51777", "若羌"], ["51828", "和田"], ["51839", "民丰"], ["51886", "茫崖"], ["52203", "哈密"], ["52267", "额济纳旗"], ["52323", "马鬃山"], ["52418", "敦煌"], ["52495", "巴彦诺日公"], ["52533", "酒泉"], ["52652", "张掖"], ["52681", "民勤"], ["52818", "格尔木"], ["52836", "都兰"], ["52866", "西宁"], ["52983", "榆中"], ["53068", "二连浩特"], ["53336", "乌拉特中旗"], ["53463", "呼和浩特"], ["53513", "临河"], ["53543", "东胜"], ["53614", "银川"], ["53772", "太原"], ["53798", "邢台"], ["53845", "延安"], ["53915", "崆峒"], ["54102", "锡林浩特"], ["54135", "通辽"], ["54161", "长春"], ["54218", "赤峰"], ["54292", "延吉"], ["54340", "沈阳"], ["54374", "临江"], ["54401", "探空站"], ["54511", "北京"], ["54539", "乐亭"], ["54662", "大连"], ["54727", "章丘"], ["54778", "荣成"], ["54857", "青岛"], ["55228", "狮泉河"], ["55248", "改则"], ["55299", "那曲"], ["55591", "拉萨"], ["55664", "定日"], ["56004", "沱沱河"], ["56029", "玉树"], ["56046", "达日"], ["56080", "合作"], ["56096", "武都"], ["56137", "昌都"], ["56146", "甘孜"], ["56173", "红原"], ["56187", "温江"], ["56247", "巴塘"], ["56312", "林芝"], ["56492", "宜宾"], ["56571", "西昌"], ["56651", "丽江"], ["56691", "威宁"], ["56739", "腾冲"], ["56778", "昆明"], ["56964", "思茅"], ["56985", "蒙自"], ["57067", "卢氏"], ["57083", "郑州"], ["57127", "汉中"], ["57131", "泾河"], ["57178", "南阳"], ["57245", "安康"], ["57328", "达川"], ["57461", "宜昌"], ["57494", "武汉"], ["57516", "重庆"], ["57541", "宣恩"], ["57816", "贵阳"], ["57993", "赣州"], ["58027", "徐州"], ["58150", "射阳"], ["58203", "阜阳"], ["58238", "南京"], ["58362", "宝山"], ["58424", "安庆"], ["58457", "杭州"], ["58606", "南昌"], ["58633", "衢州"], ["58665", "洪家"]];
+const HOURS = ["08", "14", "20"];
+
+const stnInput = document.getElementById("stnInput");
+const dateInput = document.getElementById("dateInput");
+const btnLoad = document.getElementById("btnLoad");
+const grid = document.getElementById("grid");
+const empty = document.getElementById("emptyState");
+
+let selectedHours = new Set();
+let loadSerial = 0;
+let loadedList = [];
+
+/* ===================== 初始化 ===================== */
+function pad(n){ return String(n).padStart(2, "0"); }
+// 默认取「最新已发布的观测时刻」：08/14/20 中不晚于当前北京时的最大者；
+// 凌晨 0-7 时则自动回落为前一天 20 时，日期相应减一天
+function defaultLatest(){
+  const now = new Date();
+  const d = new Date(now);
+  const cands = [8, 14, 20];
+  let hh = null;
+  for(const c of cands){ if(c <= now.getHours()) hh = c; }
+  if(hh === null){ hh = 20; d.setDate(d.getDate() - 1); }
+  return {hh: pad(hh), date: `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+}
+const DEF = defaultLatest();
+selectedHours.add(DEF.hh);
+dateInput.value = DEF.date;
+document.querySelectorAll(".hh-btn").forEach(b => b.classList.toggle("active", b.dataset.hh === DEF.hh));
+
+/* 下拉菜单：全部站点按省份分组，粤桂琼闽湘优先 */
+function buildSelect(){
+  const sel = document.getElementById("stnSelect");
+  const ph = document.createElement("option");
+  ph.value = ""; ph.textContent = "▼ 按省份选站…";
+  sel.appendChild(ph);
+  PROVINCES.forEach(g => {
+    const og = document.createElement("optgroup");
+    og.label = g.name;
+    g.stations.forEach(([stn, name]) => {
+      const o = document.createElement("option");
+      o.value = stn; o.textContent = `${stn} ${name}`;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  });
+  const og = document.createElement("optgroup");
+  og.label = "其他省份";
+  OTHERS.forEach(([stn, name]) => {
+    const o = document.createElement("option");
+    o.value = stn; o.textContent = `${stn} ${name}`;
+    og.appendChild(o);
+  });
+  sel.appendChild(og);
+  sel.onchange = () => {
+    if(sel.value){ stnInput.value = sel.value; load(); sel.value = ""; }
+  };
+}
+/* 快捷键：只做广东 / 广西 / 福建 / 湖南 */
+function buildShortcuts(){
+  const box = document.getElementById("presetBox");
+  PROVINCES.forEach(g => {
+    if(g.name === "海南") return;
+    g.stations.forEach(([stn, name]) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = `${stn} ${name}`;
+      b.title = `${g.name} · ${name}`;
+      b.onclick = () => { stnInput.value = stn; load(); };
+      box.appendChild(b);
+    });
+  });
+}
+buildSelect();
+buildShortcuts();
+
+document.querySelectorAll(".hh-btn").forEach(b => {
+  b.onclick = () => {
+    const hh = b.dataset.hh;
+    if(selectedHours.has(hh)){ if(selectedHours.size > 1){ selectedHours.delete(hh); b.classList.remove("active"); } }
+    else { selectedHours.add(hh); b.classList.add("active"); }
+    if(loadedList.length) renderGrid();
+  };
+});
+
+btnLoad.onclick = load;
+stnInput.addEventListener("keydown", e => { if(e.key === "Enter") load(); });
+
+/* ===================== URL 构建 ===================== */
+function buildUrl(stn, ymd, hh){
+  const ppath = `/share/yewu1/operation/SWPCImage/OBS/TlnP/Plot/${ymd}/TlnP_${stn}_${ymd}${hh}.png`;
+  return `${BASE}?ppath=${encodeURIComponent(ppath)}`;
+}
+function utcZ(hh){ return pad((parseInt(hh,10) - 8 + 24) % 24) + "Z"; }
+
+/* ===================== 多图框架（行高自适应 + 零间隔） ===================== */
+function layoutFor(n){
+  if(n <= 1) return {cols:1, rows:1};
+  if(n === 2) return {cols:2, rows:1};
+  return {cols:2, rows:2};
+}
+function fitGridRows(el, cols, rows){
+  if(!el || !cols || !rows) return;
+  const prevDisp = el.style.display;
+  el.style.display = "grid";
+  const isTight = cols * rows > 1; // 2/3 张紧贴并排
+  el.style.gap = isTight ? "0" : "";
+  const gap = parseFloat(getComputedStyle(el).rowGap) || 4;
+  const colW = (el.clientWidth - (cols - 1) * gap) / cols;
+  let ratio = 0.814; // 探空图 1400×1140，竖版
+  const im = el.querySelector(".grid-item img");
+  if(im && im.complete && im.naturalWidth > 0) ratio = im.naturalHeight / im.naturalWidth;
+  const naturalH = Math.max(30, Math.round(colW * ratio));
+  const area = el.parentElement;
+  const acs = getComputedStyle(area);
+  const avail = (area.clientHeight || el.clientHeight)
+    - (parseFloat(acs.paddingTop) || 0) - (parseFloat(acs.paddingBottom) || 0);
+  const maxH = Math.max(30, Math.floor((avail - (rows - 1) * gap) / rows));
+  el.style.gridTemplateRows = `repeat(${rows}, ${Math.min(naturalH, maxH)}px)`;
+  el.style.display = prevDisp;
+}
+function refitGrid(){
+  const cm = grid.style.gridTemplateColumns.match(/repeat\((\d+),/);
+  const rm = grid.style.gridTemplateRows.match(/repeat\((\d+),/);
+  if(cm && rm) fitGridRows(grid, +cm[1], +rm[1]);
+}
+
+/* ===================== 单元格 ===================== */
+function makeCell(stn, ymd, hh){
+  const url = buildUrl(stn, ymd, hh);
+  const item = document.createElement("a");
+  item.className = "grid-item";
+  item.href = url; item.target = "_blank"; item.title = "新标签打开原图";
+
+  const loadDiv = document.createElement("div");
+  loadDiv.className = "cell-load";
+  loadDiv.textContent = "加载中…";
+  item.appendChild(loadDiv);
+
+  const img = document.createElement("img");
+  img.alt = url;
+  img.style.opacity = "0";
+  item.appendChild(img);
+
+  const badge = document.createElement("div");
+  badge.className = "badge";
+  const sp1 = document.createElement("span");
+  sp1.textContent = `${stn}站 · 北京时 ${ymd.slice(0,4)}-${ymd.slice(4,6)}-${ymd.slice(6,8)} ${hh}时`;
+  const sp2 = document.createElement("span");
+  sp2.className = "vt";
+  sp2.textContent = `UTC ${utcZ(hh)}`;
+  badge.appendChild(sp1);
+  badge.appendChild(sp2);
+  item.appendChild(badge);
+
+  item._img = img;
+  item._loadDiv = loadDiv;
+  return item;
+}
+
+function attachImg(item, url, serial, pending){
+  const done = () => { if(--pending.n <= 0) showBadge(false); };
+  item._img.onload = () => {
+    if(serial !== loadSerial) return;
+    item._loadDiv.remove();
+    item._img.style.opacity = "1";
+    done();
+    refitGrid();
+  };
+  item._img.onerror = () => {
+    if(serial !== loadSerial) return;
+    const err = document.createElement("div");
+    err.className = "cell-err";
+    err.textContent = "该时次暂无探空图";
+    item.appendChild(err);
+    done();
+  };
+  item._img.src = url;
+}
+
+/* ===================== 渲染 ===================== */
+function setStepbar(stn, dateStr, hrs){
+  document.getElementById("sbStn").textContent = stn;
+  document.getElementById("sbDate").textContent = dateStr;
+  document.getElementById("sbHrs").textContent = hrs.length ? hrs.join(" / ") : "—";
+  document.getElementById("sbN").textContent = hrs.length;
+}
+function showEmpty(mainTxt, subTxt){
+  document.getElementById("emptyMain").textContent = mainTxt;
+  document.getElementById("emptySub").textContent = subTxt;
+  empty.style.display = "flex";
+  grid.classList.remove("show");
+  grid.innerHTML = "";
+  document.getElementById("urlStrip").style.display = "none";
+  document.getElementById("urlStrip").innerHTML = "";
+}
+function showBadge(on){
+  // 简单 loading 指示（顶栏按钮文字）
+  btnLoad.textContent = on ? "加载中…" : "加载";
+}
+
+function load(){
+  const stn = stnInput.value.trim();
+  if(!/^\d{5}$/.test(stn)){
+    showEmpty("站号无效", "请输入 5 位探空站区站号，如 54511（北京）");
+    return;
+  }
+  const date = dateInput.value;
+  if(!date){
+    showEmpty("请选择日期", "选择要查询的北京时日期");
+    return;
+  }
+  const hrs = [...selectedHours].sort();
+  if(!hrs.length){
+    showEmpty("未勾选时刻", "请至少勾选 08 / 14 / 20 中的一个时刻");
+    return;
+  }
+  const ymd = date.replace(/-/g, "");
+  const serial = ++loadSerial;
+  loadedList = hrs;
+  setStepbar(stn, date, hrs);
+
+  const strip = document.getElementById("urlStrip");
+  strip.style.display = "flex";
+  strip.innerHTML = "";
+  const tip = document.createElement("span");
+  tip.textContent = "原图：";
+  strip.appendChild(tip);
+  hrs.forEach(hh => {
+    const a = document.createElement("a");
+    const u = buildUrl(stn, ymd, hh);
+    a.href = u; a.target = "_blank"; a.title = u;
+    a.textContent = `${hh}时`;
+    strip.appendChild(a);
+  });
+
+  empty.style.display = "none";
+  grid.classList.add("fade");
+  grid.innerHTML = "";
+  const {cols, rows} = layoutFor(hrs.length);
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  fitGridRows(grid, cols, rows);
+  grid.classList.add("show");
+  showBadge(true);
+
+  const pending = {n: hrs.length};
+  hrs.forEach(hh => {
+    const url = buildUrl(stn, ymd, hh);
+    const item = makeCell(stn, ymd, hh);
+    grid.appendChild(item);
+    attachImg(item, url, serial, pending);
+  });
+  requestAnimationFrame(() => {
+    if(serial === loadSerial){
+      grid.classList.remove("fade");
+      refitGrid();
+    }
+  });
+}
+
+/* 初始空态文案 */
+showEmpty("输入站号与日期后点击「加载」", "例如 54511（北京）· 2026-10-10 · 08/14/20 时");
+</script>
 </body>
 </html>
